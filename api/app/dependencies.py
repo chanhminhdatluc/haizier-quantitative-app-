@@ -1,0 +1,1 @@
+"""Shared dependency helpers for future API routes."""

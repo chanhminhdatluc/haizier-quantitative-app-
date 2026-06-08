@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply m-0 bg-fintech-100 font-sans text-fintech-900 antialiased;
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.08), transparent 36%),
+      radial-gradient(circle at 80% 0%, rgba(125, 211, 252, 0.12), transparent 24%);
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    @apply transition duration-200;
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 sm:py-8 lg:space-y-8 lg:px-8 lg:py-10;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/80 sm:p-6;
+  }
+
+  .section-title {
+    @apply text-2xl font-semibold text-fintech-900 sm:text-[1.75rem];
+  }
+
+  .section-subtitle {
+    @apply mt-2 max-w-3xl text-sm leading-relaxed text-slate-600;
+  }
+
+  .field-label {
+    @apply text-left text-sm font-medium text-slate-700;
+  }
+
+  .field-input {
+    @apply mt-2 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-fintech-900 outline-none placeholder:text-slate-400 focus:border-fintech-500 focus:ring-2 focus:ring-fintech-500/25;
+  }
+
+  .field-input-error {
+    @apply border-rose-400 focus:border-rose-500 focus:ring-rose-300/40;
+  }
+
+  .field-error {
+    @apply mt-1.5 block text-xs font-medium text-rose-600;
+  }
+
+  .btn-primary {
+    @apply inline-flex w-full items-center justify-center rounded-xl bg-fintech-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-200 hover:bg-fintech-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fintech-500;
+  }
+
+  .btn-secondary {
+    @apply inline-flex w-full items-center justify-center rounded-xl border border-fintech-300 bg-white px-4 py-2.5 text-sm font-semibold text-fintech-600 hover:bg-fintech-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fintech-300;
+  }
+
+  .info-alert {
+    @apply rounded-xl border p-3 text-xs leading-relaxed;
+  }
+
+  .ethics-note {
+    @apply rounded-xl border border-sky-200 bg-sky-50 p-3 text-xs leading-relaxed text-sky-800;
+  }
+
+  .helper-heading {
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-fintech-600;
+  }
+}

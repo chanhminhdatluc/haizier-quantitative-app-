@@ -1,0 +1,2 @@
+-- Optional demo seed data for local Supabase projects.
+-- Keep production data out of source control.
