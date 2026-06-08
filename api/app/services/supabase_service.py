@@ -58,6 +58,12 @@ class SupabaseService:
 
 supabase_service = SupabaseService()
 async def save_analysis_record(request, market_data, analysis_result):
+    request_payload = (
+        request.model_dump()
+        if hasattr(request, "model_dump")
+        else dict(request)
+    )
+
     market_data_payload = (
         market_data.model_dump()
         if hasattr(market_data, "model_dump")
@@ -71,14 +77,16 @@ async def save_analysis_record(request, market_data, analysis_result):
     )
 
     payload = {
-        "ticker": market_data_payload.get("symbol") or request.ticker,
-        "asset_name": request.ticker,
-        "risk_profile": request.risk_profile.model_dump()
-        if hasattr(request.risk_profile, "model_dump")
-        else request.risk_profile,
-        "investment_horizon": request.investment_horizon,
-        "investment_amount_range": getattr(request, "investment_amount_range", None),
-        "selected_signals": getattr(request, "selected_signals", []),
+        "ticker": market_data_payload.get("symbol") or request_payload.get("ticker"),
+        "asset_name": request_payload.get("ticker"),
+        "risk_profile": request_payload.get("risk_profile")
+        or request_payload.get("risk_preference")
+        or request_payload.get("profile")
+        or request_payload,
+        "investment_horizon": request_payload.get("investment_horizon"),
+        "investment_amount_range": request_payload.get("investment_amount_range")
+        or request_payload.get("investment_amount"),
+        "selected_signals": request_payload.get("selected_signals", []),
         "market_data": market_data_payload,
         "analysis_result": analysis_result_payload,
     }
