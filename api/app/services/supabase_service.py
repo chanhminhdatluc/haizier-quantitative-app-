@@ -57,3 +57,18 @@ class SupabaseService:
 
 
 supabase_service = SupabaseService()
+async def save_analysis_record(request, market_data, analysis_result):
+    payload = {
+        "ticker": market_data.get("symbol") or request.ticker,
+        "asset_name": request.ticker,
+        "risk_profile": request.risk_profile.model_dump()
+        if hasattr(request.risk_profile, "model_dump")
+        else request.risk_profile,
+        "investment_horizon": request.investment_horizon,
+        "investment_amount_range": getattr(request, "investment_amount_range", None),
+        "selected_signals": getattr(request, "selected_signals", []),
+        "market_data": market_data,
+        "analysis_result": analysis_result,
+}
+
+    return await supabase_service.save_analysis_record(payload)
