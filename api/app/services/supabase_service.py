@@ -1,7 +1,7 @@
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
-import httpx
+import requests
 
 
 class SupabaseService:
@@ -24,7 +24,7 @@ class SupabaseService:
             "Prefer": "return=representation",
         }
 
-    async def save_analysis_record(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def insert_analysis_record(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         allowed_payload = {
             "ticker": payload.get("ticker"),
             "asset_name": payload.get("asset_name"),
@@ -36,12 +36,12 @@ class SupabaseService:
             "analysis_result": payload.get("analysis_result") or {},
         }
 
-        async with httpx.AsyncClient(timeout=20.0) as client:
-            response = await client.post(
-                self.table_url,
-                headers=self.headers,
-                json=allowed_payload,
-            )
+        response = requests.post(
+            self.table_url,
+            headers=self.headers,
+            json=allowed_payload,
+            timeout=20,
+        )
 
         if response.status_code >= 400:
             raise RuntimeError(
@@ -57,6 +57,8 @@ class SupabaseService:
 
 
 supabase_service = SupabaseService()
+
+
 async def save_analysis_record(request, market_data, analysis_result):
     request_payload = (
         request.model_dump()
@@ -91,4 +93,4 @@ async def save_analysis_record(request, market_data, analysis_result):
         "analysis_result": analysis_result_payload,
     }
 
-    return await supabase_service.save_analysis_record(payload)
+    return supabase_service.insert_analysis_record(payload)
